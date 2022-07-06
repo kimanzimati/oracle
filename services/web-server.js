@@ -2,7 +2,9 @@ const http = require('http');
 const express = require('express');
 const morgan = require('morgan');       //web server logging
 const webServerConfig = require('../config/web-server.js');
-
+//const database = require('./database.js');
+// *** line that requires ../config/web-server.js is here ***
+const router = require('./router.js');
 let httpServer;
 
 function initialize() {
@@ -15,9 +17,22 @@ function initialize() {
 
       // *** app.get call below this line ***
       
-    app.get('/', (req, res) => {
-      res.end('Hello World!');
-    });
+   // app.get('/', (req, res) => {
+   //   res.end('Hello World!');
+    //});
+
+    // *** line that adds morgan to app here ***
+
+  //  app.get('/', async (req, res) => {
+   //   const result = await database.simpleExecute('select user, systimestamp from dual');
+     // const user = result.rows[0].USER;
+    //  const date = result.rows[0].SYSTIMESTAMP;
+//
+  //    res.end(`DB user: ${user}\nDate: ${date}`);
+  //  });
+
+// Mount the router at /api so all its routes start with /api
+app.use('/api', router);
 
     httpServer.listen(webServerConfig.port, err => {
       if (err) {
